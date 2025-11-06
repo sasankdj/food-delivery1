@@ -23,7 +23,7 @@ const createMenuItem = async (req, res) => {
         description,
         price,
         category,
-        image,
+        image: image,
     });
 
     const createdMenuItem = await menuItem.save();

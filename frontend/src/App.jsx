@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
@@ -11,6 +12,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import ContactUsPage from './pages/ContactUsPage';
 import MyOrdersPage from './pages/MyOrdersPage';
+import OrderDetailPage from './pages/OrderDetailsPage';
 import AdminPage from './pages/AdminPage';
 import ManageMenuPage from './pages/ManageMenuPage';
 import ManageOrdersPage from './pages/ManageOrdersPage';
@@ -18,6 +20,7 @@ import ManageOrdersPage from './pages/ManageOrdersPage';
 const App = () => {
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <main>
         <Routes>
@@ -30,6 +33,7 @@ const App = () => {
             <Route path='/checkout' element={<CheckoutPage />} />
             <Route path='/order/:id' element={<OrderSuccessPage />} />
             <Route path='/myorders' element={<MyOrdersPage />} />
+            <Route path='/orders/:id' element={<OrderDetailPage />} />
           </Route>
           <Route path='/admin' element={<AdminRoute />}>
             <Route path='' element={<AdminPage />} />

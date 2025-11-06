@@ -42,19 +42,27 @@ const MyOrdersPage = () => {
             ) : (
                 <div className="space-y-6">
                     {orders.map(order => (
-                        <div key={order._id} className="bg-white shadow-lg rounded-lg p-6 border">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h2 className="text-xl font-semibold">Order ID: {order._id}</h2>
-                                    <p className="text-sm text-gray-500">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                        <Link to={`/orders/${order._id}`} key={order._id} className="block hover:bg-gray-50">
+                            <div className="bg-white shadow-lg rounded-lg p-6 border">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h2 className="text-xl font-semibold">Order ID: {order._id}</h2>
+                                        <p className="text-sm text-gray-500">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                    <p className="text-lg font-bold">Total: ₹{order.totalPrice.toFixed(2)}</p>
                                 </div>
-                                <p className="text-lg font-bold">Total: ₹{order.totalPrice.toFixed(2)}</p>
+                                <div className="mb-4">
+                                    <h3 className="font-semibold">Status:</h3>
+                                    <p className={`font-medium ${order.isDelivered ? 'text-green-600' : order.isShipped ? 'text-blue-600' : 'text-yellow-600'}`}>
+                                        {order.isDelivered ? `Delivered on ${new Date(order.deliveredAt).toLocaleDateString()}` : order.isShipped ? `Shipped on ${new Date(order.shippedAt).toLocaleDateString()}` : 'Order Placed'}
+                                    </p>
+                                </div>
+                                <div className="border-t pt-4">
+                                    <h3 className="font-semibold mb-2">Items:</h3>
+                                    {order.orderItems.map(item => <p key={item.product} className="text-gray-700">{item.name} (x{item.qty})</p>)}
+                                </div>
                             </div>
-                            <div className="border-t pt-4">
-                                <h3 className="font-semibold mb-2">Items:</h3>
-                                {order.orderItems.map(item => <p key={item.product} className="text-gray-700">{item.name} (x{item.qty})</p>)}
-                            </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}

@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const CheckoutPage = () => {
     const { cartItems, totalPrice, clearCart } = useCart();
@@ -38,7 +39,7 @@ const CheckoutPage = () => {
 
         } catch (error) {
             console.error('Order placement failed', error);
-            alert('Failed to place order.');
+            toast.error('Failed to place order.');
         }
     };
 

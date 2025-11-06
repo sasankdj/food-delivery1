@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 const ManageMenuPage = () => {
     const [menu, setMenu] = useState([]);
     const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'North Indian', image: '/images/default.jpg' });
+    const [uploading, setUploading] = useState(false);
     const { user } = useAuth();
 
     const fetchMenu = async () => {
@@ -18,15 +20,43 @@ const ManageMenuPage = () => {
 
     const handleAddItem = async (e) => {
         e.preventDefault();
+        if (!newItem.image) {
+            toast.error('Please upload an image first.');
+            return;
+        }
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
             await axios.post('/api/menu', newItem, config);
-            alert('Item added!');
+            toast.success('Item added successfully!');
             setNewItem({ name: '', description: '', price: '', category: 'North Indian', image: '/images/default.jpg' });
+            document.getElementById('image-file-input').value = ''; // Reset file input
             fetchMenu();
         } catch (error) {
             console.error('Failed to add menu item', error);
-            alert('Failed to add item.');
+            toast.error('Failed to add item.');
+        }
+    };
+
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${user.token}`,
+                },
+            };
+            const { data } = await axios.post('/api/upload', formData, config);
+            setNewItem({ ...newItem, image: data.image });
+            setUploading(false);
+        } catch (error) {
+            console.error(error);
+            toast.error('Image upload failed');
+            setUploading(false);
         }
     };
 
@@ -35,11 +65,11 @@ const ManageMenuPage = () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
                 await axios.delete(`/api/menu/${id}`, config);
-                alert('Item deleted!');
+                toast.success('Item deleted successfully!');
                 fetchMenu();
             } catch (error) {
                 console.error('Failed to delete menu item', error);
-                alert('Failed to delete item.');
+                toast.error('Failed to delete item.');
             }
         }
     };
@@ -59,8 +89,14 @@ const ManageMenuPage = () => {
                         <option>South Indian</option>
                         <option>Chinese</option>
                     </select>
-                    <input type="text" placeholder="Image URL" value={newItem.image} onChange={e => setNewItem({ ...newItem, image: e.target.value })} required className="w-full px-4 py-2 border rounded-md" />
-                    <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Add Item</button>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Image</label>
+                        <input id="image-file-input" type="file" onChange={uploadFileHandler} required className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                        {uploading && <p>Uploading...</p>}
+                    </div>
+                    <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700" disabled={uploading}>
+                        {uploading ? 'Uploading Image...' : 'Add Item'}
+                    </button>
                 </form>
             </div>
 
