@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MenuItemCard from '../components/MenuItemCard';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MenuPage = () => {
     const [menu, setMenu] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const MenuPage = () => {
     useEffect(() => {
         const fetchMenu = async () => {
             try {
-                const { data } = await axios.get('/api/menu');
+                const { data } = await axios.get(`${API_URL}/api/menu`);
                 setMenu(data);
                 setLoading(false);
             } catch (error) {

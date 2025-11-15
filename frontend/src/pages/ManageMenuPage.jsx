@@ -3,6 +3,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ManageMenuPage = () => {
     const [menu, setMenu] = useState([]);
     const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'North Indian', image: '/images/default.jpg' });
@@ -10,7 +12,7 @@ const ManageMenuPage = () => {
     const { user } = useAuth();
 
     const fetchMenu = async () => {
-        const { data } = await axios.get('/api/menu');
+        const { data } = await axios.get(`${API_URL}/api/menu`);
         setMenu(data);
     };
 
@@ -26,7 +28,7 @@ const ManageMenuPage = () => {
         }
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('/api/menu', newItem, config);
+            await axios.post(`${API_URL}/api/menu`, newItem, config);
             toast.success('Item added successfully!');
             setNewItem({ name: '', description: '', price: '', category: 'North Indian', image: '/images/default.jpg' });
             document.getElementById('image-file-input').value = ''; // Reset file input
@@ -50,7 +52,7 @@ const ManageMenuPage = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post('/api/upload', formData, config);
+            const { data } = await axios.post(`${API_URL}/api/upload`, formData, config);
             setNewItem({ ...newItem, image: data.image });
             setUploading(false);
         } catch (error) {
@@ -64,7 +66,7 @@ const ManageMenuPage = () => {
         if (window.confirm('Are you sure you want to delete this item?')) {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                await axios.delete(`/api/menu/${id}`, config);
+                await axios.delete(`${API_URL}/api/menu/${id}`, config);
                 toast.success('Item deleted successfully!');
                 fetchMenu();
             } catch (error) {

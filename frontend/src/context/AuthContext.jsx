@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
@@ -20,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const { data } = await axios.post('/api/auth/login', { email, password });
+            const { data } = await axios.post(`${API_URL}/api/auth/login`, { email, password });
             localStorage.setItem('userInfo', JSON.stringify(data));
             setUser(data);
             navigate('/');
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (name, email, password) => {
         try {
-            const { data } = await axios.post('/api/auth/signup', { name, email, password });
+            const { data } = await axios.post(`${API_URL}/api/auth/signup`, { name, email, password });
             // We get a token on signup, so we can log the user in directly
             localStorage.setItem('userInfo', JSON.stringify(data));
             setUser(data);

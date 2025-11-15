@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const OrderSuccessPage = () => {
     const { id } = useParams();
     const [order, setOrder] = useState(null);
@@ -11,7 +13,7 @@ const OrderSuccessPage = () => {
     useEffect(() => {
         const fetchOrder = async () => {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            const { data } = await axios.get(`/api/orders/${id}`, config);
+            const { data } = await axios.get(`${API_URL}/api/orders/${id}`, config);
             setOrder(data);
         };
         if (user) {

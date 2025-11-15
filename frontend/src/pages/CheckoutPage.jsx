@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CheckoutPage = () => {
     const { cartItems, totalPrice, clearCart } = useCart();
     const { user } = useAuth();
@@ -25,7 +27,7 @@ const CheckoutPage = () => {
             };
 
             const { data } = await axios.post(
-                '/api/orders',
+                `${API_URL}/api/orders`,
                 {
                     orderItems: cartItems,
                     shippingAddress: { address, city, postalCode },

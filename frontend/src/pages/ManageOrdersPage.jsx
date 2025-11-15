@@ -3,6 +3,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ManageOrdersPage = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ const ManageOrdersPage = () => {
     const fetchOrders = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const { data } = await axios.get('/api/orders', config);
+                const { data } = await axios.get(`${API_URL}/api/orders`, config);
                 setOrders(data);
             } catch (error) {
                 console.error('Failed to fetch orders', error);
@@ -29,7 +31,7 @@ const ManageOrdersPage = () => {
     const handleMarkAsShipped = async (orderId) => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.put(`/api/orders/${orderId}/ship`, {}, config);
+            await axios.put(`${API_URL}/api/orders/${orderId}/ship`, {}, config);
             fetchOrders(); // Refresh orders to show updated status
         } catch (error) {
             console.error('Failed to mark as shipped', error);
@@ -40,7 +42,7 @@ const ManageOrdersPage = () => {
     const handleMarkAsDelivered = async (orderId) => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.put(`/api/orders/${orderId}/deliver`, {}, config);
+            await axios.put(`${API_URL}/api/orders/${orderId}/deliver`, {}, config);
             fetchOrders(); // Refresh orders to show updated status
         } catch (error) {
             console.error('Failed to mark as delivered', error);

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MyOrdersPage = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ const MyOrdersPage = () => {
                         Authorization: `Bearer ${user.token}`,
                     },
                 };
-                const { data } = await axios.get('/api/orders/myorders', config);
+                const { data } = await axios.get(`${API_URL}/api/orders/myorders`, config);
                 setOrders(data);
             } catch (error) {
                 console.error('Failed to fetch orders', error);
