@@ -1,26 +1,24 @@
-import path from 'path';
 import express from 'express';
 import multer from 'multer';
+import fs from 'fs';
 
 import { protect } from '../middleware/authMiddleware.js';
 import { admin } from '../middleware/adminMiddleware.js';
 const router = express.Router();
 
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename(req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-    },
-});
-
-const upload = multer({ storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.post('/', protect, admin, upload.single('image'), (req, res) => {
-    // req.file is the `image` file
-    // The path is constructed to be served statically
-    res.send({ message: 'Image Uploaded', image: `/${req.file.path.replace(/\\/g, "/")}` });
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    // Convert buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+    const mimeType = req.file.mimetype;
+    const dataUrl = `data:${mimeType};base64,${base64Image}`;
+
+    res.send({ message: 'Image Uploaded', image: dataUrl });
 });
 
 export default router;
