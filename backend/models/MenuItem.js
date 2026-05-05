@@ -18,9 +18,16 @@ const menuItemSchema = new mongoose.Schema({
         required: true,
         enum: ['South Indian', 'North Indian', 'Chinese'],
     },
-    image: {
+image: {
         type: String, // URL to the image
         required: true,
+    },
+    ingredients: [{
+        type: String,
+    }],
+    calories: {
+        type: Number,
+        default: 0
     },
 }, { timestamps: true });
 

@@ -17,6 +17,10 @@ import OrderDetailPage from './pages/OrderDetailsPage';
 import AdminPage from './pages/AdminPage';
 import ManageMenuPage from './pages/ManageMenuPage';
 import ManageOrdersPage from './pages/ManageOrdersPage';
+import AllergyFilterPage from './pages/AllergyFilterPage';
+import CaloriesFilterPage from './pages/CaloriesFilterPage';
+import BudgetFilterPage from './pages/BudgetFilterPage';
+import BulkBookingPage from './pages/BulkBookingPage';
 
 const App = () => {
   return (
@@ -27,6 +31,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
+          <Route path="/menu/allergy-filter" element={<AllergyFilterPage />} />
+          <Route path="/menu/calories-filter" element={<CaloriesFilterPage />} />
+          <Route path="/menu/budget-filter" element={<BudgetFilterPage />} />
+          <Route path="/menu/bulk-booking" element={<BulkBookingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/cart" element={<CartPage />} />

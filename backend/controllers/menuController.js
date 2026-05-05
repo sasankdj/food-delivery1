@@ -13,7 +13,7 @@ const getMenuItems = asyncHandler(async (req, res) => {
 // @route   POST /api/menu
 // @access  Private/Admin
 const createMenuItem = asyncHandler(async (req, res) => {
-    const { name, description, price, category, image } = req.body;
+    const { name, description, price, category, image, ingredients, calories } = req.body;
 
     const menuItem = new MenuItem({
         name,
@@ -21,6 +21,8 @@ const createMenuItem = asyncHandler(async (req, res) => {
         price,
         category,
         image: image,
+        ingredients,
+        calories,
     });
 
     const createdMenuItem = await menuItem.save();
@@ -42,4 +44,27 @@ const deleteMenuItem = asyncHandler(async (req, res) => {
     }
 });
 
-export { getMenuItems, createMenuItem, deleteMenuItem };
+// @desc    Update a menu item
+// @route   PUT /api/menu/:id
+// @access  Private/Admin
+const updateMenuItem = asyncHandler(async (req, res) => {
+    const menuItem = await MenuItem.findById(req.params.id);
+
+    if (menuItem) {
+        menuItem.name = req.body.name || menuItem.name;
+        menuItem.description = req.body.description || menuItem.description;
+        menuItem.price = req.body.price || menuItem.price;
+        menuItem.category = req.body.category || menuItem.category;
+        menuItem.image = req.body.image || menuItem.image;
+        menuItem.ingredients = req.body.ingredients || menuItem.ingredients;
+        menuItem.calories = req.body.calories || menuItem.calories;
+
+        const updatedMenuItem = await menuItem.save();
+        res.json(updatedMenuItem);
+    } else {
+        res.status(404);
+        throw new Error('Menu item not found');
+    }
+});
+
+export { getMenuItems, createMenuItem, deleteMenuItem, updateMenuItem };

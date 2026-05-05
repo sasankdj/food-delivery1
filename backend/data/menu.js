@@ -5,6 +5,8 @@ const menuItems = [
         price: 80,
         category: 'South Indian',
         image: '/images/masala-dosa.jpg',
+        ingredients: ['rice batter', 'spiced potatoes', 'onions', 'chutney'],
+        calories: 350
     },
     {
         name: 'Idli Sambar',
@@ -12,6 +14,8 @@ const menuItems = [
         price: 60,
         category: 'South Indian',
         image: '/images/idli-sambar.jpg',
+        ingredients: ['rice', 'urad dal', 'sambar lentils', 'vegetables'],
+        calories: 250
     },
     {
         name: 'Butter Chicken',
@@ -19,6 +23,8 @@ const menuItems = [
         price: 250,
         category: 'North Indian',
         image: '/images/butter-chicken.jpg',
+        ingredients: ['chicken', 'tomato sauce', 'butter', 'cream', 'spices'],
+        calories: 650
     },
     {
         name: 'Palak Paneer',
@@ -26,6 +32,8 @@ const menuItems = [
         price: 220,
         category: 'North Indian',
         image: '/images/palak-paneer.jpg',
+        ingredients: ['spinach', 'paneer', 'cream', 'spices', 'garlic'],
+        calories: 450
     },
     {
         name: 'Hakka Noodles',
@@ -33,6 +41,8 @@ const menuItems = [
         price: 150,
         category: 'Chinese',
         image: '/images/hakka-noodles.jpg',
+        ingredients: ['noodles', 'mixed vegetables', 'soy sauce', 'garlic', 'ginger'],
+        calories: 550
     },
     {
         name: 'Manchurian',
@@ -40,6 +50,8 @@ const menuItems = [
         price: 180,
         category: 'Chinese',
         image: '/images/manchurian.jpg',
+        ingredients: ['mixed vegetables', 'cornflour batter', 'manchurian sauce', 'garlic', 'ginger'],
+        calories: 400
     },
 ];
 

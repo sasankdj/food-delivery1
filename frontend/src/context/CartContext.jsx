@@ -50,7 +50,11 @@ export const CartProvider = ({ children }) => {
     };
 
     const itemsCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
-    const totalPrice = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
+    const totalPrice = cartItems.reduce((acc, item) => {
+        const discountFactor = item.qty >= 5 ? 0.9 : 1.0;
+        const discountedPrice = item.price * discountFactor;
+        return acc + item.qty * discountedPrice;
+    }, 0);
 
     const clearCart = () => {
         setCartItems([]);
