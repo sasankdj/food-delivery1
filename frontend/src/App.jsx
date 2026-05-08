@@ -21,12 +21,13 @@ import AllergyFilterPage from './pages/AllergyFilterPage';
 import CaloriesFilterPage from './pages/CaloriesFilterPage';
 import BudgetFilterPage from './pages/BudgetFilterPage';
 import BulkBookingPage from './pages/BulkBookingPage';
-
+import FoodFLeetChatbot from './components/FoodFleetChatbot';
 const App = () => {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
+      <FoodFLeetChatbot />
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
